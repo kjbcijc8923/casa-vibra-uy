@@ -23,12 +23,15 @@ export type Property = {
   href?: string;
 };
 
+export type PriceDisplayMode = "uyu" | "usd" | "both";
+
 type Props = {
   property: Property;
   whatsappNumberNoPlus: string;
+  priceDisplay?: PriceDisplayMode;
 };
 
-export default function PropertyCard({ property, whatsappNumberNoPlus }: Props) {
+export default function PropertyCard({ property, whatsappNumberNoPlus, priceDisplay = "both" }: Props) {
   const { rate } = useUsdUyuRate();
   const price = formatPriceDual(property.priceUsd, rate);
 
@@ -81,8 +84,16 @@ export default function PropertyCard({ property, whatsappNumberNoPlus }: Props) 
             <MapPin className="h-4 w-4" />
             {property.neighborhood}
           </span>
-          <span className="font-medium text-foreground">{price.uyu}</span>
-          <span className="text-xs text-muted-foreground">({price.usd})</span>
+          {priceDisplay === "uyu" ? (
+            <span className="font-medium text-foreground">{price.uyu}</span>
+          ) : priceDisplay === "usd" ? (
+            <span className="font-medium text-foreground">{price.usd}</span>
+          ) : (
+            <>
+              <span className="font-medium text-foreground">{price.uyu}</span>
+              <span className="text-xs text-muted-foreground">({price.usd})</span>
+            </>
+          )}
         </div>
       </CardHeader>
 
