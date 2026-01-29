@@ -1,7 +1,9 @@
 import { useMemo, useRef, useState } from "react";
 import { ArrowDown, Building2, Home, MapPinned, Search, Sparkles, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import heroImage from "@/assets/uy-real-estate-hero.jpg";
+import promotorImage from "@/assets/promotor.png";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -122,16 +124,19 @@ const Index = () => {
             </span>
             <span className="font-display text-lg font-semibold">Uruguay Living</span>
           </a>
-          <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-            <a className="hover:text-foreground" href="#propiedades">
-              Propiedades
-            </a>
-            <a className="hover:text-foreground" href="#zonas">
-              Zonas
-            </a>
-            <a className="hover:text-foreground" href="#contacto">
-              Contacto
-            </a>
+          <nav className="hidden items-center gap-2 md:flex">
+            <Button asChild variant="ghost" size="sm" className="hover-scale">
+              <a href="#propiedades">Propiedades</a>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="hover-scale">
+              <a href="#zonas">Zonas</a>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="hover-scale">
+              <Link to="/mapa">Mapa</Link>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="hover-scale">
+              <a href="#contacto">Contacto</a>
+            </Button>
           </nav>
           <Button asChild variant="whatsapp" size="sm">
             <a href={waGeneral} target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">
@@ -153,6 +158,23 @@ const Index = () => {
               <Badge variant="secondary" className="glass">
                 Uruguay Living · Inmobiliaria
               </Badge>
+
+              <div className="glass rounded-2xl p-4 shadow-elevated border-border-strong/30">
+                <div className="flex items-center gap-4">
+                  <img
+                    src={promotorImage}
+                    alt="Foto del promotor de Uruguay Living"
+                    className="h-14 w-14 rounded-2xl object-cover"
+                    loading="eager"
+                  />
+                  <div className="min-w-0">
+                    <p className="font-semibold leading-tight">Promotor</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Te acompaño en la búsqueda, visitas y negociación para encontrar la mejor opción.
+                    </p>
+                  </div>
+                </div>
+              </div>
               <h1 className="text-balance font-display text-4xl font-semibold leading-tight md:text-5xl">
                 Encontrá tu casa o apartamento ideal en Uruguay
               </h1>

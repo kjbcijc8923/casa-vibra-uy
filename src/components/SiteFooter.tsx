@@ -1,8 +1,10 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import WhatsAppLogo from "@/components/WhatsAppLogo";
 
 type Props = {
   whatsappNumberNoPlus: string;
@@ -25,11 +27,32 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
           </div>
 
           <div className="space-y-3">
+            <p className="text-sm font-semibold">Navegación</p>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link className="story-link" to="/mapa">
+                  Ver mapa
+                </Link>
+              </li>
+              <li>
+                <a className="story-link" href="#propiedades">
+                  Propiedades
+                </a>
+              </li>
+              <li>
+                <a className="story-link" href="#contacto">
+                  Contacto
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-3">
             <p className="text-sm font-semibold">Contacto</p>
             <div className="flex flex-col gap-2">
               <Button asChild variant="whatsapp" size="sm" className="justify-start">
                 <a href={wa} target="_blank" rel="noreferrer">
-                  <MessageCircle /> WhatsApp: +598 94 493 252
+                  <WhatsAppLogo /> WhatsApp: +598 94 493 252
                 </a>
               </Button>
               <Button asChild variant="outline" size="sm" className="justify-start">
@@ -41,15 +64,6 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
           </div>
 
           <div className="space-y-3">
-            <p className="text-sm font-semibold">Legal</p>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Términos y condiciones</li>
-              <li>Política de privacidad</li>
-              <li>Aviso de cookies</li>
-            </ul>
-          </div>
-
-          <div className="space-y-3">
             <p className="text-sm font-semibold">Horarios</p>
             <p className="text-sm text-muted-foreground">Lun–Vie: 09:00–18:00 · Sáb: 10:00–13:00</p>
             <p className="text-sm text-muted-foreground">Atención por WhatsApp 24/7.</p>
@@ -57,8 +71,8 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© {year} MonteUruguay. Todos los derechos reservados.</p>
-          <p>Desarrollado por Medellin Pty</p>
+          <p>© {year} Uruguay Living. Todos los derechos reservados.</p>
+          <p className="text-xs">Términos · Privacidad · Cookies</p>
         </div>
       </div>
     </footer>
