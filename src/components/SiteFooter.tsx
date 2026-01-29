@@ -17,42 +17,21 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
 
   return (
     <footer ref={ref} className="border-t bg-card/40">
-      <div className="container py-12">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="space-y-3">
+      <div className="container py-10">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2 max-w-md">
             <p className="font-display text-lg font-semibold">Uruguay Living</p>
             <p className="text-sm text-muted-foreground">
-              Venta y alquiler de casas y apartamentos en Uruguay.
+              Asesoramiento personalizado para comprar o alquilar casas y apartamentos en Uruguay.
             </p>
           </div>
 
-          <div className="space-y-3">
-            <p className="text-sm font-semibold">Navegación</p>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link className="story-link" to="/mapa">
-                  Ver mapa
-                </Link>
-              </li>
-              <li>
-                <Link className="story-link" to="/propiedades">
-                  Propiedades
-                </Link>
-              </li>
-              <li>
-                <Link className="story-link" to="/contacto">
-                  Contacto
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-3">
-            <p className="text-sm font-semibold">Contacto</p>
-            <div className="flex flex-col gap-2">
+          <div className="space-y-2">
+            <p className="text-sm font-semibold">Contactar ahora</p>
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Button asChild variant="whatsapp" size="sm" className="justify-start">
                 <a href={wa} target="_blank" rel="noreferrer">
-                  <WhatsAppLogo /> WhatsApp: +598 94 493 252
+                  <WhatsAppLogo /> WhatsApp
                 </a>
               </Button>
               <Button asChild variant="outline" size="sm" className="justify-start">
@@ -62,17 +41,11 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
               </Button>
             </div>
           </div>
-
-          <div className="space-y-3">
-            <p className="text-sm font-semibold">Horarios</p>
-            <p className="text-sm text-muted-foreground">Lun–Vie: 09:00–18:00 · Sáb: 10:00–13:00</p>
-            <p className="text-sm text-muted-foreground">Atención por WhatsApp 24/7.</p>
-          </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© {year} Uruguay Living. Todos los derechos reservados.</p>
-          <p className="text-xs">Términos · Privacidad · Cookies</p>
+        <div className="mt-8 flex flex-col gap-2 border-t pt-5 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
+          <p>© {year} Uruguay Living. Sitio demo de propiedades en Uruguay.</p>
+          <p>Mapa · Propiedades · Contacto</p>
         </div>
       </div>
     </footer>
