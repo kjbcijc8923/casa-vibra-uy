@@ -1,137 +1,105 @@
 import { useMemo, useRef, useState } from "react";
-import { ArrowDown, Building2, Home, MapPinned, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowDown, Building2, Home, MapPinned, MessageCircle, Search, Sparkles, X } from "lucide-react";
 
 import heroImage from "@/assets/uy-real-estate-hero.jpg";
-import propertyApartmentSmall from "@/assets/property-apartment-small.jpg";
-import propertyHouseLuxury from "@/assets/property-house-luxury.jpg";
-import propertyHouseFamily from "@/assets/property-house-family.jpg";
-import propertyApartmentBeach from "@/assets/property-apartment-beach.jpg";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import SectionHeading from "@/components/SectionHeading";
 import PropertyCard, { type Property } from "@/components/PropertyCard";
 import SiteFooter from "@/components/SiteFooter";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { CONTACT_EMAIL, PROPERTIES, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
 
 const Index = () => {
-  const whatsappNumberNoPlus = "59894493252";
-  const email = "emmanuel5521@gmail.com";
-
   const [filter, setFilter] = useState<"Todas" | "Casas" | "Apartamentos">("Todas");
+  const [query, setQuery] = useState("");
+  const [city, setCity] = useState<string>("Todas");
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
+  const [minArea, setMinArea] = useState<string>("");
+  const [maxArea, setMaxArea] = useState<string>("");
+  const [minBeds, setMinBeds] = useState<string>("");
+  const [sort, setSort] = useState<"price-asc" | "price-desc">("price-asc");
+
   const listingsRef = useRef<HTMLDivElement | null>(null);
 
   const properties: Property[] = useMemo(
-    () => [
-      {
-        id: "uy-1",
-        title: "Casa premium con piscina y barbacoa",
-        city: "Canelones",
-        neighborhood: "Ciudad de la Costa",
-        type: "Casa",
-        priceUsd: 495000,
-        beds: 4,
-        baths: 3,
-        areaM2: 320,
-        imageSrc: propertyHouseLuxury,
-        featured: true,
-      },
-      {
-        id: "uy-2",
-        title: "Apartamento luminoso cerca de servicios",
-        city: "Montevideo",
-        neighborhood: "Tres Cruces",
-        type: "Apartamento",
-        priceUsd: 128000,
-        beds: 2,
-        baths: 1,
-        areaM2: 58,
-        imageSrc: propertyApartmentSmall,
-      },
-      {
-        id: "uy-3",
-        title: "Casa familiar con jardín y cochera",
-        city: "Montevideo",
-        neighborhood: "Prado",
-        type: "Casa",
-        priceUsd: 219000,
-        beds: 3,
-        baths: 2,
-        areaM2: 140,
-        imageSrc: propertyHouseFamily,
-      },
-      {
-        id: "uy-4",
-        title: "Apartamento frente al mar con balcón",
-        city: "Maldonado",
-        neighborhood: "Punta del Este",
-        type: "Apartamento",
-        priceUsd: 285000,
-        beds: 2,
-        baths: 2,
-        areaM2: 84,
-        imageSrc: propertyApartmentBeach,
-        featured: true,
-      },
-      {
-        id: "uy-5",
-        title: "Casa amplia ideal para inversión",
-        city: "Montevideo",
-        neighborhood: "Buceo",
-        type: "Casa",
-        priceUsd: 338000,
-        beds: 4,
-        baths: 2,
-        areaM2: 210,
-        imageSrc: propertyHouseLuxury,
-      },
-      {
-        id: "uy-6",
-        title: "Apartamento moderno con amenities",
-        city: "Montevideo",
-        neighborhood: "Pocitos",
-        type: "Apartamento",
-        priceUsd: 199000,
-        beds: 1,
-        baths: 1,
-        areaM2: 52,
-        imageSrc: propertyApartmentBeach,
-      },
-      {
-        id: "uy-7",
-        title: "Casa pequeña, cómoda y bien ubicada",
-        city: "Canelones",
-        neighborhood: "Las Piedras",
-        type: "Casa",
-        priceUsd: 99000,
-        beds: 2,
-        baths: 1,
-        areaM2: 76,
-        imageSrc: propertyHouseFamily,
-      },
-      {
-        id: "uy-8",
-        title: "Apartamento ideal primera vivienda",
-        city: "Montevideo",
-        neighborhood: "Cordón",
-        type: "Apartamento",
-        priceUsd: 112000,
-        beds: 1,
-        baths: 1,
-        areaM2: 45,
-        imageSrc: propertyApartmentSmall,
-      },
-    ],
+    () =>
+      PROPERTIES.map((p) => ({
+        id: p.id,
+        title: p.title,
+        city: p.city,
+        neighborhood: p.neighborhood,
+        type: p.type,
+        priceUsd: p.priceUsd,
+        beds: p.beds,
+        baths: p.baths,
+        areaM2: p.areaM2,
+        imageSrc: p.images[0],
+        featured: p.featured,
+        href: `/propiedad/${p.id}`,
+      })),
     [],
   );
 
-  const filtered = useMemo(() => {
-    if (filter === "Casas") return properties.filter((p) => p.type === "Casa");
-    if (filter === "Apartamentos") return properties.filter((p) => p.type === "Apartamento");
-    return properties;
-  }, [filter, properties]);
+  const cities = useMemo(() => {
+    const set = new Set(properties.map((p) => p.city));
+    return ["Todas", ...Array.from(set).sort((a, b) => a.localeCompare(b, "es"))];
+  }, [properties]);
 
-  const waGeneral = buildWhatsAppLink(whatsappNumberNoPlus, "Hola, quiero asesoramiento para comprar una propiedad en Uruguay.");
+  const safeNumber = (value: string) => {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : undefined;
+  };
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase().slice(0, 80);
+    const minP = safeNumber(minPrice);
+    const maxP = safeNumber(maxPrice);
+    const minA = safeNumber(minArea);
+    const maxA = safeNumber(maxArea);
+    const minB = safeNumber(minBeds);
+
+    const byType = (p: Property) => {
+      if (filter === "Casas") return p.type === "Casa";
+      if (filter === "Apartamentos") return p.type === "Apartamento";
+      return true;
+    };
+
+    const byCity = (p: Property) => (city === "Todas" ? true : p.city === city);
+
+    const byQuery = (p: Property) => {
+      if (!q) return true;
+      const hay = `${p.title} ${p.city} ${p.neighborhood} ${p.type}`.toLowerCase();
+      return hay.includes(q);
+    };
+
+    const byNumbers = (p: Property) => {
+      if (minP !== undefined && p.priceUsd < minP) return false;
+      if (maxP !== undefined && p.priceUsd > maxP) return false;
+      if (minA !== undefined && p.areaM2 < minA) return false;
+      if (maxA !== undefined && p.areaM2 > maxA) return false;
+      if (minB !== undefined && p.beds < minB) return false;
+      return true;
+    };
+
+    const list = properties.filter((p) => byType(p) && byCity(p) && byQuery(p) && byNumbers(p));
+
+    list.sort((a, b) => (sort === "price-asc" ? a.priceUsd - b.priceUsd : b.priceUsd - a.priceUsd));
+    return list;
+  }, [city, filter, maxArea, maxPrice, minArea, minBeds, minPrice, properties, query, sort]);
+
+  const waGeneral = buildWhatsAppLink(WHATSAPP_NUMBER_NO_PLUS, "Hola, quiero asesoramiento para comprar una propiedad en Uruguay.");
 
   const onHeroMove: React.MouseEventHandler<HTMLElement> = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -288,7 +256,7 @@ const Index = () => {
             <SectionHeading
               eyebrow="Listado"
               title="Casas y apartamentos disponibles (simulación)"
-              description="Elegí una categoría y contactanos por WhatsApp por cualquier propiedad."
+              description="Buscá por ciudad, precio, m² y dormitorios. Ordená por precio y abrí el detalle de cada propiedad."
             />
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
@@ -315,9 +283,144 @@ const Index = () => {
               </Button>
             </div>
 
+            <div className="mt-8 glass rounded-3xl p-6 shadow-elevated">
+              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+                <div className="space-y-2">
+                  <Label htmlFor="q">Buscar</Label>
+                  <div className="relative">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
+                    <Input
+                      id="q"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Ej: Pocitos, casa, balcón..."
+                      className="pl-9"
+                      maxLength={80}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Ciudad</Label>
+                  <Select value={city} onValueChange={setCity}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Elegir" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((c) => (
+                        <SelectItem key={c} value={c}>
+                          {c}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Precio (USD)</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Input
+                      inputMode="numeric"
+                      value={minPrice}
+                      onChange={(e) => setMinPrice(e.target.value.replace(/[^0-9]/g, "").slice(0, 7))}
+                      placeholder="Mín."
+                      aria-label="Precio mínimo"
+                    />
+                    <Input
+                      inputMode="numeric"
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(e.target.value.replace(/[^0-9]/g, "").slice(0, 7))}
+                      placeholder="Máx."
+                      aria-label="Precio máximo"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Superficie (m²)</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Input
+                      inputMode="numeric"
+                      value={minArea}
+                      onChange={(e) => setMinArea(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
+                      placeholder="Mín."
+                      aria-label="Metros cuadrados mínimos"
+                    />
+                    <Input
+                      inputMode="numeric"
+                      value={maxArea}
+                      onChange={(e) => setMaxArea(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
+                      placeholder="Máx."
+                      aria-label="Metros cuadrados máximos"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Dormitorios (mín.)</Label>
+                  <Input
+                    inputMode="numeric"
+                    value={minBeds}
+                    onChange={(e) => setMinBeds(e.target.value.replace(/[^0-9]/g, "").slice(0, 2))}
+                    placeholder="Ej: 2"
+                    aria-label="Dormitorios mínimos"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Ordenar</Label>
+                  <Select value={sort} onValueChange={(v) => setSort(v as "price-asc" | "price-desc")}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="price-asc">Menor a mayor precio</SelectItem>
+                      <SelectItem value="price-desc">Mayor a menor precio</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex items-end">
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => {
+                      setQuery("");
+                      setCity("Todas");
+                      setMinPrice("");
+                      setMaxPrice("");
+                      setMinArea("");
+                      setMaxArea("");
+                      setMinBeds("");
+                      setSort("price-asc");
+                      setFilter("Todas");
+                    }}
+                  >
+                    <X /> Limpiar
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+                <p>
+                  Resultados: <span className="font-medium text-foreground">{filtered.length}</span>
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const el = document.getElementById("contacto");
+                    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                >
+                  Consultar ahora
+                </Button>
+              </div>
+            </div>
+
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filtered.map((p) => (
-                <PropertyCard key={p.id} property={p} whatsappNumberNoPlus={whatsappNumberNoPlus} />
+                <PropertyCard key={p.id} property={p} whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS} />
               ))}
             </div>
 
@@ -328,7 +431,7 @@ const Index = () => {
                   <p className="mt-3 text-muted-foreground">
                     Escribinos por WhatsApp y te respondemos con opciones similares, ubicación y disponibilidad.
                   </p>
-                  <p className="mt-3 text-sm text-muted-foreground">Correo: {email}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">Correo: {CONTACT_EMAIL}</p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
                   <Button asChild variant="whatsapp" size="lg">
@@ -337,7 +440,7 @@ const Index = () => {
                     </a>
                   </Button>
                   <Button asChild variant="outline" size="lg">
-                    <a href={`mailto:${email}`}>Enviar correo</a>
+                    <a href={`mailto:${CONTACT_EMAIL}`}>Enviar correo</a>
                   </Button>
                 </div>
               </div>
@@ -346,7 +449,7 @@ const Index = () => {
         </section>
       </main>
 
-      <SiteFooter whatsappNumberNoPlus={whatsappNumberNoPlus} email={email} />
+      <SiteFooter whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS} email={CONTACT_EMAIL} />
     </div>
   );
 };
