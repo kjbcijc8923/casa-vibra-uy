@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { ArrowDown, Building2, Home, MapPinned, MessageCircle, Search, Sparkles, X } from "lucide-react";
+import { ArrowDown, Building2, Home, MapPinned, Search, Sparkles, X } from "lucide-react";
 
 import heroImage from "@/assets/uy-real-estate-hero.jpg";
 
@@ -20,6 +20,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CONTACT_EMAIL, PROPERTIES, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
 import { useUsdUyuRate } from "@/hooks/use-usd-uyu-rate";
+import WhatsAppLogo from "@/components/WhatsAppLogo";
 
 const Index = () => {
   const { rate, source } = useUsdUyuRate();
@@ -119,7 +120,7 @@ const Index = () => {
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-hero shadow-glow">
               <Sparkles className="h-5 w-5" />
             </span>
-            <span className="font-display text-lg font-semibold">MonteUruguay</span>
+            <span className="font-display text-lg font-semibold">Uruguay Living</span>
           </a>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
             <a className="hover:text-foreground" href="#propiedades">
@@ -134,7 +135,7 @@ const Index = () => {
           </nav>
           <Button asChild variant="whatsapp" size="sm">
             <a href={waGeneral} target="_blank" rel="noreferrer" aria-label="Contactar por WhatsApp">
-              <MessageCircle /> WhatsApp
+              <WhatsAppLogo /> WhatsApp
             </a>
           </Button>
         </div>
@@ -150,13 +151,13 @@ const Index = () => {
           <div className="container relative grid gap-10 py-14 md:grid-cols-2 md:items-center md:py-20">
             <div className="space-y-6 animate-fade-in reduce-motion:no-anim">
               <Badge variant="secondary" className="glass">
-                Inmobiliaria · Uruguay
+                Uruguay Living · Inmobiliaria
               </Badge>
               <h1 className="text-balance font-display text-4xl font-semibold leading-tight md:text-5xl">
                 Encontrá tu casa o apartamento ideal en Uruguay
               </h1>
               <p className="text-balance text-lg text-muted-foreground">
-                Propiedades grandes y pequeñas, con precios simulados y contacto inmediato por WhatsApp.
+                Propiedades seleccionadas, asesoramiento profesional y contacto inmediato por WhatsApp.
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -169,7 +170,7 @@ const Index = () => {
                 </Button>
                 <Button asChild variant="whatsapp" size="lg">
                   <a href={waGeneral} target="_blank" rel="noreferrer">
-                    <MessageCircle /> Contactar
+                    <WhatsAppLogo /> WhatsApp
                   </a>
                 </Button>
               </div>
@@ -257,7 +258,7 @@ const Index = () => {
           <div className="container">
             <SectionHeading
               eyebrow="Listado"
-              title="Casas y apartamentos disponibles (simulación)"
+              title="Casas y apartamentos disponibles"
               description="Buscá por ciudad, precio, m² y dormitorios. Ordená por precio y abrí el detalle de cada propiedad."
             />
 
@@ -441,7 +442,7 @@ const Index = () => {
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
                   <Button asChild variant="whatsapp" size="lg">
                     <a href={waGeneral} target="_blank" rel="noreferrer">
-                      <MessageCircle /> Hablar por WhatsApp
+                      <WhatsAppLogo /> Hablar por WhatsApp
                     </a>
                   </Button>
                   <Button asChild variant="outline" size="lg">
