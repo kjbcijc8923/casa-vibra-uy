@@ -12,6 +12,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
 import WhatsAppLogo from "@/components/WhatsAppLogo";
+import WhoWeAreSection from "@/components/home/WhoWeAreSection";
 
 const Index = () => {
   const waGeneral = buildWhatsAppLink(WHATSAPP_NUMBER_NO_PLUS, "Hola, quiero asesoramiento para comprar una propiedad en Uruguay.");
@@ -126,8 +127,11 @@ const Index = () => {
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="hero" size="lg">
                   <Link to="/propiedades">
-                    Ver propiedades <ArrowDown />
+                    Explorar propiedades <ArrowDown />
                   </Link>
+                </Button>
+                <Button asChild variant="highlight" size="lg">
+                  <Link to="/propiedades">Ser propietario seguro</Link>
                 </Button>
                 <Button asChild variant="whatsapp" size="lg">
                   <a href={waGeneral} target="_blank" rel="noreferrer">
@@ -166,6 +170,8 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        <WhoWeAreSection />
 
         <section id="zonas" className="container py-14 md:py-18">
           <SectionHeading
