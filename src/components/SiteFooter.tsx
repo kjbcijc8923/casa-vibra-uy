@@ -1,4 +1,5 @@
 import { Mail, MessageCircle } from "lucide-react";
+import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -8,12 +9,12 @@ type Props = {
   email: string;
 };
 
-export default function SiteFooter({ whatsappNumberNoPlus, email }: Props) {
+const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus, email }, ref) => {
   const year = new Date().getFullYear();
   const wa = buildWhatsAppLink(whatsappNumberNoPlus, "Hola, quiero más información sobre propiedades en Uruguay.");
 
   return (
-    <footer className="border-t bg-card/40">
+    <footer ref={ref} className="border-t bg-card/40">
       <div className="container py-12">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="space-y-3">
@@ -62,4 +63,7 @@ export default function SiteFooter({ whatsappNumberNoPlus, email }: Props) {
       </div>
     </footer>
   );
-}
+});
+SiteFooter.displayName = "SiteFooter";
+
+export default SiteFooter;
