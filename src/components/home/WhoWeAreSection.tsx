@@ -8,7 +8,7 @@ type WhoWeAreSectionProps = {
 
 export default function WhoWeAreSection({ id = "quienes-somos" }: WhoWeAreSectionProps) {
   return (
-    <section id={id} className="container py-14 md:py-18" aria-label="Quiénes somos">
+    <section id={id} className="container py-14 md:py-18" aria-label="Quiénes somos" data-reveal>
       <SectionHeading
         eyebrow="Uruguay Living"
         title="Quiénes somos"
