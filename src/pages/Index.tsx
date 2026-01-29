@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Select,
   SelectContent,
@@ -35,6 +36,7 @@ const Index = () => {
   const [maxArea, setMaxArea] = useState<string>("");
   const [minBeds, setMinBeds] = useState<string>("");
   const [sort, setSort] = useState<"price-asc" | "price-desc">("price-asc");
+  const [priceDisplay, setPriceDisplay] = useState<"uyu" | "usd" | "both">("both");
 
   const listingsRef = useRef<HTMLDivElement | null>(null);
 
@@ -405,6 +407,29 @@ const Index = () => {
                   </Select>
                 </div>
 
+                <div className="space-y-2">
+                  <Label>Mostrar precio</Label>
+                  <ToggleGroup
+                    type="single"
+                    value={priceDisplay}
+                    onValueChange={(v) => setPriceDisplay((v || "both") as "uyu" | "usd" | "both")}
+                    variant="outline"
+                    size="sm"
+                    className="justify-start"
+                    aria-label="Elegir moneda a mostrar"
+                  >
+                    <ToggleGroupItem value="uyu" aria-label="Mostrar solo UYU">
+                      UYU
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="usd" aria-label="Mostrar solo USD">
+                      USD
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="both" aria-label="Mostrar UYU y USD">
+                      Ambas
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </div>
+
                 <div className="flex items-end">
                   <Button
                     variant="secondary"
@@ -419,6 +444,7 @@ const Index = () => {
                       setMinBeds("");
                       setSort("price-asc");
                       setFilter("Todas");
+                      setPriceDisplay("both");
                     }}
                   >
                     <X /> Limpiar
@@ -448,7 +474,12 @@ const Index = () => {
 
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filtered.map((p) => (
-                <PropertyCard key={p.id} property={p} whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS} />
+                <PropertyCard
+                  key={p.id}
+                  property={p}
+                  whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS}
+                  priceDisplay={priceDisplay}
+                />
               ))}
             </div>
 
