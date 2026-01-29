@@ -27,10 +27,12 @@ All colors MUST be HSL.
     --primary-foreground: 210 40% 98%;
 
     /* Accents */
-    --brand: 142 72% 34%;
+    /* Brand green for WhatsApp CTA */
+    --brand: 142 70% 34%;
     --brand-foreground: 210 40% 98%;
-    --highlight: 24 96% 57%;
-    --highlight-foreground: 222 35% 10%;
+    /* Calm coastal accent (no orange) */
+    --highlight: 204 70% 42%;
+    --highlight-foreground: 210 40% 98%;
 
     --secondary: 214 35% 94%;
     --secondary-foreground: 222 35% 12%;

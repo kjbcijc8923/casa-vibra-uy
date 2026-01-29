@@ -18,9 +18,9 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
       <div className="container py-12">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="space-y-3">
-            <p className="font-display text-lg font-semibold">MonteUruguay</p>
+            <p className="font-display text-lg font-semibold">Uruguay Living</p>
             <p className="text-sm text-muted-foreground">
-              Venta y alquiler de casas y apartamentos en Uruguay. Propiedades simuladas para demostración.
+              Venta y alquiler de casas y apartamentos en Uruguay.
             </p>
           </div>
 
@@ -43,9 +43,9 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
           <div className="space-y-3">
             <p className="text-sm font-semibold">Legal</p>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Términos y condiciones (demo)</li>
-              <li>Política de privacidad (demo)</li>
-              <li>Aviso de cookies (demo)</li>
+              <li>Términos y condiciones</li>
+              <li>Política de privacidad</li>
+              <li>Aviso de cookies</li>
             </ul>
           </div>
 

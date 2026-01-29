@@ -14,13 +14,299 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          address: string
+          area_m2: number
+          baths: number
+          beds: number
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_published: boolean
+          neighborhood: string
+          price_usd: number | null
+          price_uyu: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          area_m2?: number
+          baths?: number
+          beds?: number
+          city: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_published?: boolean
+          neighborhood?: string
+          price_usd?: number | null
+          price_uyu: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          area_m2?: number
+          baths?: number
+          beds?: number
+          city?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_published?: boolean
+          neighborhood?: string
+          price_usd?: number | null
+          price_uyu?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      property_photos: {
+        Row: {
+          created_at: string
+          id: string
+          object_path: string
+          property_id: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          object_path: string
+          property_id: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          object_path?: string
+          property_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "admin_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      admin_properties: {
+        Row: {
+          address: string | null
+          area_m2: number | null
+          baths: number | null
+          beds: number | null
+          city: string | null
+          created_at: string | null
+          description: string | null
+          id: string | null
+          is_published: boolean | null
+          neighborhood: string | null
+          price_usd: number | null
+          price_uyu: number | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          area_m2?: number | null
+          baths?: number | null
+          beds?: number | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          is_published?: boolean | null
+          neighborhood?: string | null
+          price_usd?: number | null
+          price_uyu?: number | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          area_m2?: number | null
+          baths?: number | null
+          beds?: number | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          is_published?: boolean | null
+          neighborhood?: string | null
+          price_usd?: number | null
+          price_uyu?: number | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      admin_property_photos: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          object_path: string | null
+          property_id: string | null
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          object_path?: string | null
+          property_id?: string | null
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          object_path?: string | null
+          property_id?: string | null
+          sort_order?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "admin_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      public_properties: {
+        Row: {
+          address: string | null
+          area_m2: number | null
+          baths: number | null
+          beds: number | null
+          city: string | null
+          created_at: string | null
+          description: string | null
+          id: string | null
+          neighborhood: string | null
+          price_usd: number | null
+          price_uyu: number | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          area_m2?: number | null
+          baths?: number | null
+          beds?: number | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          neighborhood?: string | null
+          price_usd?: number | null
+          price_uyu?: number | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          area_m2?: number | null
+          baths?: number | null
+          beds?: number | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          neighborhood?: string | null
+          price_usd?: number | null
+          price_uyu?: number | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      public_property_photos: {
+        Row: {
+          id: string | null
+          object_path: string | null
+          property_id: string | null
+          sort_order: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "admin_properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_photos_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
