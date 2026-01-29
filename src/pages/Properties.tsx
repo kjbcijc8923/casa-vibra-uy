@@ -31,6 +31,7 @@ export default function PropertiesPage() {
   const [minBeds, setMinBeds] = useState<string>("");
   const [sort, setSort] = useState<"price-asc" | "price-desc">("price-asc");
   const [priceDisplay, setPriceDisplay] = useState<PriceDisplayMode>("both");
+  const [showFilters, setShowFilters] = useState(false);
 
   const properties: Property[] = useMemo(
     () =>
@@ -125,10 +126,26 @@ export default function PropertiesPage() {
           <SectionHeading
             eyebrow="Listado"
             title="Casas y apartamentos"
-            description="Estas propiedades son de ejemplo (simulación) mientras cargamos las reales desde el panel."
+            description="Propiedades de ejemplo (simulación) mientras cargamos las reales desde el panel."
           />
 
-          <div className="mt-8 glass rounded-3xl p-6 shadow-elevated">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-muted-foreground">
+              Mostrando <span className="font-medium text-foreground">{filtered.length}</span> propiedades.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="hover-scale"
+              onClick={() => setShowFilters((prev) => !prev)}
+            >
+              <Search className="mr-2 h-4 w-4" />
+              {showFilters ? "Ocultar filtros" : "Mostrar filtros"}
+            </Button>
+          </div>
+
+          {showFilters && (
+          <div className="mt-6 glass rounded-3xl p-6 shadow-elevated">
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
                 <Label htmlFor="q">Buscar</Label>
@@ -263,6 +280,7 @@ export default function PropertiesPage() {
                     setSort("price-asc");
                     setFilter("Todas");
                     setPriceDisplay("both");
+                    listingsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }}
                 >
                   <X /> Limpiar
@@ -270,6 +288,7 @@ export default function PropertiesPage() {
               </div>
             </div>
           </div>
+          )}
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
             <Button variant={filter === "Todas" ? "highlight" : "secondary"} size="sm" onClick={() => setFilter("Todas")}>
@@ -287,7 +306,7 @@ export default function PropertiesPage() {
             </Button>
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p) => (
               <PropertyCard key={p.id} property={p} whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS} priceDisplay={priceDisplay} />
             ))}
