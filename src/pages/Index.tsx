@@ -19,8 +19,10 @@ import PropertyCard, { type Property } from "@/components/PropertyCard";
 import SiteFooter from "@/components/SiteFooter";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CONTACT_EMAIL, PROPERTIES, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
+import { useUsdUyuRate } from "@/hooks/use-usd-uyu-rate";
 
 const Index = () => {
+  const { rate, source } = useUsdUyuRate();
   const [filter, setFilter] = useState<"Todas" | "Casas" | "Apartamentos">("Todas");
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<string>("Todas");
@@ -404,6 +406,9 @@ const Index = () => {
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
                 <p>
                   Resultados: <span className="font-medium text-foreground">{filtered.length}</span>
+                </p>
+                <p className="text-xs">
+                  Tasa: 1 USD ≈ <span className="font-medium text-foreground">{Math.round(rate * 100) / 100} UYU</span> ({source})
                 </p>
                 <Button
                   variant="outline"

@@ -5,7 +5,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
-import { formatUSD } from "@/lib/format";
+import { formatPriceDual } from "@/lib/format";
+import { useUsdUyuRate } from "@/hooks/use-usd-uyu-rate";
 
 export type Property = {
   id: string;
@@ -28,13 +29,16 @@ type Props = {
 };
 
 export default function PropertyCard({ property, whatsappNumberNoPlus }: Props) {
+  const { rate } = useUsdUyuRate();
+  const price = formatPriceDual(property.priceUsd, rate);
+
   const wa = buildWhatsAppLink(
     whatsappNumberNoPlus,
-    `Hola, me interesa: ${property.title} (${property.neighborhood}, ${property.city}). Precio: ${formatUSD(property.priceUsd)}. ¿Me das más información?`,
+    `Hola, me interesa: ${property.title} (${property.neighborhood}, ${property.city}). Precio: ${price.uyu} (${price.usd}). ¿Me das más información?`,
   );
 
   return (
-    <Card className="group glass overflow-hidden shadow-elevated transition-transform duration-300 hover:-translate-y-1 reduce-motion:no-anim">
+    <Card className="group glass overflow-hidden shadow-elevated transition-transform duration-300 hover:-translate-y-1 reduce-motion:no-anim border-border-strong/30">
       <div className="relative aspect-[4/3] overflow-hidden">
         {property.href ? (
           <Link to={property.href} aria-label={`Ver detalles de ${property.title}`}>
@@ -77,7 +81,8 @@ export default function PropertyCard({ property, whatsappNumberNoPlus }: Props) 
             <MapPin className="h-4 w-4" />
             {property.neighborhood}
           </span>
-          <span className="font-medium text-foreground">{formatUSD(property.priceUsd)}</span>
+          <span className="font-medium text-foreground">{price.uyu}</span>
+          <span className="text-xs text-muted-foreground">({price.usd})</span>
         </div>
       </CardHeader>
 
