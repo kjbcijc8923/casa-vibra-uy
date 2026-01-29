@@ -13,8 +13,11 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
 import WhatsAppLogo from "@/components/WhatsAppLogo";
 import WhoWeAreSection from "@/components/home/WhoWeAreSection";
+import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
 
 const Index = () => {
+  useRevealOnScroll({ disableOnMobile: true });
+
   const waGeneral = buildWhatsAppLink(WHATSAPP_NUMBER_NO_PLUS, "Hola, quiero asesoramiento para comprar una propiedad en Uruguay.");
 
   const onHeroMove: React.MouseEventHandler<HTMLElement> = (e) => {
@@ -62,6 +65,7 @@ const Index = () => {
           onMouseMove={onHeroMove}
           className="relative overflow-hidden bg-hero"
           aria-label="Hero"
+          data-reveal
         >
           <div className="absolute inset-0 surface-grid opacity-70" aria-hidden="true" />
           <div className="container relative grid gap-10 py-14 md:grid-cols-2 md:items-center md:py-20">
@@ -173,7 +177,7 @@ const Index = () => {
 
         <WhoWeAreSection />
 
-        <section id="zonas" className="container py-14 md:py-18">
+        <section id="zonas" className="container py-14 md:py-18" data-reveal>
           <SectionHeading
             eyebrow="Cobertura"
             title="Zonas con más demanda"
@@ -221,7 +225,7 @@ const Index = () => {
           </div>
         </section>
 
-        <section id="contacto" className="border-y bg-card/30 py-14 md:py-18">
+        <section id="contacto" className="border-y bg-card/30 py-14 md:py-18" data-reveal>
           <div className="container">
             <div className="glass rounded-3xl p-8 shadow-elevated md:p-10">
               <div className="grid gap-8 md:grid-cols-2 md:items-center">
