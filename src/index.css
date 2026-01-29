@@ -45,6 +45,7 @@ All colors MUST be HSL.
     --destructive-foreground: 210 40% 98%;
 
     --border: 214 30% 88%;
+    --border-strong: 222 35% 10%;
     --input: 214 30% 88%;
     --ring: 220 85% 55%;
 
@@ -108,6 +109,7 @@ All colors MUST be HSL.
     --destructive-foreground: 210 40% 98%;
 
     --border: 220 20% 20%;
+    --border-strong: 210 40% 98%;
     --input: 220 20% 20%;
     --ring: 220 85% 66%;
 
@@ -151,7 +153,7 @@ All colors MUST be HSL.
 
   .glass {
     background: hsl(var(--card) / 0.66);
-    border: 1px solid hsl(var(--border) / 0.8);
+    border: 1px solid hsl(var(--border-strong) / 0.62);
     backdrop-filter: blur(10px);
   }
 

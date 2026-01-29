@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import SiteFooter from "@/components/SiteFooter";
-import { formatUSD } from "@/lib/format";
+import { formatPriceDual } from "@/lib/format";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CONTACT_EMAIL, PROPERTIES, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
+import { useUsdUyuRate } from "@/hooks/use-usd-uyu-rate";
 
 export default function PropertyDetails() {
   const { id } = useParams();
+  const { rate, source } = useUsdUyuRate();
 
   const property = useMemo(() => PROPERTIES.find((p) => p.id === id), [id]);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -37,9 +39,11 @@ export default function PropertyDetails() {
     );
   }
 
+  const price = formatPriceDual(property.priceUsd, rate);
+
   const wa = buildWhatsAppLink(
     WHATSAPP_NUMBER_NO_PLUS,
-    `Hola, me interesa: ${property.title} (${property.neighborhood}, ${property.city}). Precio: ${formatUSD(property.priceUsd)}. ¿Podemos coordinar una visita?`,
+    `Hola, me interesa: ${property.title} (${property.neighborhood}, ${property.city}). Precio: ${price.uyu} (${price.usd}). ¿Podemos coordinar una visita?`,
   );
 
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(property.mapQuery)}&output=embed`;
@@ -111,7 +115,11 @@ export default function PropertyDetails() {
                 <span className="inline-flex items-center gap-1">
                   <MapPin className="h-4 w-4" /> {property.neighborhood}, {property.city}
                 </span>
-                <span className="font-medium text-foreground">{formatUSD(property.priceUsd)}</span>
+                <span className="font-medium text-foreground">{price.uyu}</span>
+                <span className="text-xs text-muted-foreground">({price.usd})</span>
+                <Badge variant="outline" className="glass">
+                  Tasa: 1 USD ≈ {Math.round(rate * 100) / 100} UYU ({source})
+                </Badge>
               </div>
             </div>
 
@@ -133,7 +141,7 @@ export default function PropertyDetails() {
               </div>
             </div>
 
-            <Card className="glass rounded-3xl p-6 shadow-elevated">
+            <Card className="glass rounded-3xl p-6 shadow-elevated border-border-strong/30">
               <h2 className="font-display text-xl font-semibold">Descripción</h2>
               <p className="mt-3 text-muted-foreground">{property.description}</p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -149,7 +157,7 @@ export default function PropertyDetails() {
               </div>
             </Card>
 
-            <Card className="glass overflow-hidden rounded-3xl shadow-elevated">
+            <Card className="glass overflow-hidden rounded-3xl shadow-elevated border-border-strong/30">
               <div className="flex items-center justify-between gap-3 border-b px-6 py-4">
                 <h2 className="font-display text-xl font-semibold">Mapa</h2>
                 <Badge variant="outline" className="glass">

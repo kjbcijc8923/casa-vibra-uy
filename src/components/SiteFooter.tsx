@@ -58,7 +58,7 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
 
         <div className="mt-10 flex flex-col gap-2 border-t pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
           <p>© {year} MonteUruguay. Todos los derechos reservados.</p>
-          <p>Diseño y desarrollo: Lovable · Demo inmobiliaria</p>
+          <p>Desarrollado por Medellin Pty</p>
         </div>
       </div>
     </footer>
