@@ -250,7 +250,7 @@ const Index = () => {
         </section>
       </main>
 
-      <SiteFooter whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS} email={CONTACT_EMAIL} />
+      <SiteFooter whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS} email={CONTACT_EMAIL} showWhatsApp={false} />
     </div>
   );
 };

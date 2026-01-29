@@ -9,9 +9,10 @@ import WhatsAppLogo from "@/components/WhatsAppLogo";
 type Props = {
   whatsappNumberNoPlus: string;
   email: string;
+  showWhatsApp?: boolean;
 };
 
-const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus, email }, ref) => {
+const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus, email, showWhatsApp = true }, ref) => {
   const year = new Date().getFullYear();
   const wa = buildWhatsAppLink(whatsappNumberNoPlus, "Hola, quiero más información sobre propiedades en Uruguay.");
 
@@ -44,11 +45,13 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
             <div className="space-y-3 md:justify-self-end md:text-right">
               <p className="text-sm font-semibold">Contacto directo</p>
               <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-1">
-                <Button asChild variant="whatsapp" size="sm" className="w-full justify-center">
-                  <a href={wa} target="_blank" rel="noreferrer">
-                    <WhatsAppLogo /> WhatsApp
-                  </a>
-                </Button>
+                {showWhatsApp ? (
+                  <Button asChild variant="whatsapp" size="sm" className="w-full justify-center">
+                    <a href={wa} target="_blank" rel="noreferrer">
+                      <WhatsAppLogo /> WhatsApp
+                    </a>
+                  </Button>
+                ) : null}
                 <Button asChild variant="outline" size="sm" className="w-full justify-center">
                   <a href={`mailto:${email}`}>
                     <Mail /> {email}
