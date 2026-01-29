@@ -125,7 +125,7 @@ const Index = () => {
               </p>
 
               <div className="grid gap-3 sm:grid-cols-3">
-                <Button asChild variant="hero" size="lg" className="w-full">
+                <Button asChild variant="glass" size="lg" className="w-full">
                   <a href="#zonas">
                     Explorar zonas <ArrowDown />
                   </a>
