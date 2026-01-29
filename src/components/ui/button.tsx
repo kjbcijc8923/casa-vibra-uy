@@ -11,6 +11,8 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         hero: "bg-hero text-primary-foreground shadow-elevated hover:shadow-glow",
+        glass:
+          "bg-card/75 text-foreground border border-border-strong/45 backdrop-blur shadow-elevated hover:bg-card/90",
         whatsapp: "bg-brand text-brand-foreground hover:bg-brand/90 shadow-elevated",
         highlight:
           "bg-highlight text-highlight-foreground shadow-elevated ring-1 ring-border-strong/40 hover:bg-highlight/90 hover:shadow-glow",
