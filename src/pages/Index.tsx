@@ -32,13 +32,16 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-40 border-b bg-background/75 backdrop-blur supports-[backdrop-filter]:bg-background/55">
         <div className="container flex h-16 items-center justify-between">
-          <a href="#" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2" aria-label="Ir al Home">
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-hero shadow-glow">
               <HandCoins className="h-5 w-5" />
             </span>
             <span className="font-display text-lg font-semibold">Uruguay Living</span>
-          </a>
+          </Link>
           <nav className="hidden items-center gap-2 md:flex">
+            <Button asChild variant="ghost" size="sm" className="hover-scale">
+              <Link to="/">Home</Link>
+            </Button>
             <Button asChild variant="ghost" size="sm" className="hover-scale">
               <Link to="/propiedades">Propiedades</Link>
             </Button>
@@ -128,7 +131,7 @@ const Index = () => {
                 Propiedades seleccionadas, asesoramiento profesional y contacto inmediato por WhatsApp.
               </p>
 
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <Button asChild variant="glass" size="lg" className="w-full">
                   <a href="#zonas">
                     Explorar zonas <ArrowDown />
@@ -136,11 +139,6 @@ const Index = () => {
                 </Button>
                 <Button asChild variant="highlight" size="lg" className="w-full">
                   <Link to="/propiedades">Ser propietario seguro</Link>
-                </Button>
-                <Button asChild variant="whatsapp" size="lg" className="w-full">
-                  <a href={waGeneral} target="_blank" rel="noreferrer">
-                    <WhatsAppLogo /> WhatsApp
-                  </a>
                 </Button>
               </div>
 
