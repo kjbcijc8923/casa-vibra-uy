@@ -128,7 +128,7 @@ const Index = () => {
           </a>
           <nav className="hidden items-center gap-2 md:flex">
             <Button asChild variant="ghost" size="sm" className="hover-scale">
-              <a href="#propiedades">Propiedades</a>
+              <Link to="/propiedades">Propiedades</Link>
             </Button>
             <Button asChild variant="ghost" size="sm" className="hover-scale">
               <a href="#zonas">Zonas</a>
@@ -137,7 +137,7 @@ const Index = () => {
               <Link to="/mapa">Mapa</Link>
             </Button>
             <Button asChild variant="ghost" size="sm" className="hover-scale">
-              <a href="#contacto">Contacto</a>
+              <Link to="/contacto">Contacto</Link>
             </Button>
           </nav>
           <Button asChild variant="whatsapp" size="sm">
@@ -185,12 +185,10 @@ const Index = () => {
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row">
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => listingsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                >
-                  Ver propiedades <ArrowDown />
+                <Button asChild variant="hero" size="lg">
+                  <Link to="/propiedades">
+                    Ver propiedades <ArrowDown />
+                  </Link>
                 </Button>
                 <Button asChild variant="whatsapp" size="lg">
                   <a href={waGeneral} target="_blank" rel="noreferrer">

@@ -35,14 +35,14 @@ const SiteFooter = React.forwardRef<HTMLElement, Props>(({ whatsappNumberNoPlus,
                 </Link>
               </li>
               <li>
-                <a className="story-link" href="#propiedades">
+                <Link className="story-link" to="/propiedades">
                   Propiedades
-                </a>
+                </Link>
               </li>
               <li>
-                <a className="story-link" href="#contacto">
+                <Link className="story-link" to="/contacto">
                   Contacto
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
