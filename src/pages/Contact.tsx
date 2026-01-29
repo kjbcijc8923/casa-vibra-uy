@@ -45,14 +45,15 @@ export default function ContactPage() {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
           <section className="space-y-4">
             <Card className="glass rounded-3xl p-7 shadow-elevated border-border-strong/30">
-              <div className="flex items-center gap-5">
+                <div className="flex items-center gap-5">
                 <div className="relative">
-                  <div className="absolute -inset-2 rounded-[1.25rem] bg-hero blur-xl opacity-70" aria-hidden="true" />
+                  <div className="absolute -inset-3 rounded-[1.75rem] bg-hero blur-2xl opacity-70" aria-hidden="true" />
                   <img
                     src={promotorImage}
                     alt="Foto del promotor de Uruguay Living"
-                    className="relative h-24 w-24 rounded-[1.25rem] object-cover ring-1 ring-border/50"
+                    className="relative h-32 w-32 rounded-[1.75rem] object-cover ring-1 ring-border/50"
                     loading="eager"
+                    decoding="async"
                   />
                 </div>
                 <div>
