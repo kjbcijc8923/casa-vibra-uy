@@ -1,4 +1,4 @@
-import { ArrowDown, Building2, Home, MapPinned, Sparkles } from "lucide-react";
+import { ArrowDown, Building2, HandCoins, Home, MapPinned } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import heroImage from "@/assets/uy-real-estate-hero.jpg";
@@ -31,7 +31,7 @@ const Index = () => {
         <div className="container flex h-16 items-center justify-between">
           <a href="#" className="flex items-center gap-2">
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-hero shadow-glow">
-              <Sparkles className="h-5 w-5" />
+              <HandCoins className="h-5 w-5" />
             </span>
             <span className="font-display text-lg font-semibold">Uruguay Living</span>
           </a>
