@@ -126,9 +126,9 @@ const Index = () => {
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="hero" size="lg">
-                  <Link to="/propiedades">
-                    Explorar propiedades <ArrowDown />
-                  </Link>
+                  <a href="#zonas">
+                    Explorar zonas <ArrowDown />
+                  </a>
                 </Button>
                 <Button asChild variant="highlight" size="lg">
                   <Link to="/propiedades">Ser propietario seguro</Link>
@@ -226,9 +226,9 @@ const Index = () => {
             <div className="glass rounded-3xl p-8 shadow-elevated md:p-10">
               <div className="grid gap-8 md:grid-cols-2 md:items-center">
                 <div>
-                  <h2 className="text-balance font-display text-3xl font-semibold">¿Querés coordinar una visita?</h2>
+                  <h2 className="text-balance font-display text-3xl font-semibold">Coordinemos tu visita</h2>
                   <p className="mt-3 text-muted-foreground">
-                    Escribinos por WhatsApp y te respondemos con opciones similares, ubicación y disponibilidad.
+                    Escribinos por WhatsApp y te respondemos con disponibilidad, ubicación y alternativas comparables según tu presupuesto.
                   </p>
                   <p className="mt-3 text-sm text-muted-foreground">Correo: {CONTACT_EMAIL}</p>
                 </div>
