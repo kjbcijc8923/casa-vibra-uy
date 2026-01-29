@@ -1,5 +1,4 @@
-import { useMemo, useRef, useState } from "react";
-import { ArrowDown, Building2, Home, MapPinned, Search, Sparkles, X } from "lucide-react";
+import { ArrowDown, Building2, Home, MapPinned, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import heroImage from "@/assets/uy-real-estate-hero.jpg";
@@ -7,105 +6,14 @@ import promotorImage from "@/assets/promotor.png";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import SectionHeading from "@/components/SectionHeading";
-import PropertyCard, { type Property } from "@/components/PropertyCard";
 import SiteFooter from "@/components/SiteFooter";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
-import { CONTACT_EMAIL, PROPERTIES, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
-import { useUsdUyuRate } from "@/hooks/use-usd-uyu-rate";
+import { CONTACT_EMAIL, WHATSAPP_NUMBER_NO_PLUS } from "@/data/properties";
 import WhatsAppLogo from "@/components/WhatsAppLogo";
 
 const Index = () => {
-  const { rate, source } = useUsdUyuRate();
-  const [filter, setFilter] = useState<"Todas" | "Casas" | "Apartamentos">("Todas");
-  const [query, setQuery] = useState("");
-  const [city, setCity] = useState<string>("Todas");
-  const [minPrice, setMinPrice] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<string>("");
-  const [minArea, setMinArea] = useState<string>("");
-  const [maxArea, setMaxArea] = useState<string>("");
-  const [minBeds, setMinBeds] = useState<string>("");
-  const [sort, setSort] = useState<"price-asc" | "price-desc">("price-asc");
-  const [priceDisplay, setPriceDisplay] = useState<"uyu" | "usd" | "both">("both");
-
-  const listingsRef = useRef<HTMLDivElement | null>(null);
-
-  const properties: Property[] = useMemo(
-    () =>
-      PROPERTIES.map((p) => ({
-        id: p.id,
-        title: p.title,
-        city: p.city,
-        neighborhood: p.neighborhood,
-        type: p.type,
-        priceUsd: p.priceUsd,
-        beds: p.beds,
-        baths: p.baths,
-        areaM2: p.areaM2,
-        imageSrc: p.images[0],
-        featured: p.featured,
-        href: `/propiedad/${p.id}`,
-      })),
-    [],
-  );
-
-  const cities = useMemo(() => {
-    const set = new Set(properties.map((p) => p.city));
-    return ["Todas", ...Array.from(set).sort((a, b) => a.localeCompare(b, "es"))];
-  }, [properties]);
-
-  const safeNumber = (value: string) => {
-    const n = Number(value);
-    return Number.isFinite(n) ? n : undefined;
-  };
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase().slice(0, 80);
-    const minP = safeNumber(minPrice);
-    const maxP = safeNumber(maxPrice);
-    const minA = safeNumber(minArea);
-    const maxA = safeNumber(maxArea);
-    const minB = safeNumber(minBeds);
-
-    const byType = (p: Property) => {
-      if (filter === "Casas") return p.type === "Casa";
-      if (filter === "Apartamentos") return p.type === "Apartamento";
-      return true;
-    };
-
-    const byCity = (p: Property) => (city === "Todas" ? true : p.city === city);
-
-    const byQuery = (p: Property) => {
-      if (!q) return true;
-      const hay = `${p.title} ${p.city} ${p.neighborhood} ${p.type}`.toLowerCase();
-      return hay.includes(q);
-    };
-
-    const byNumbers = (p: Property) => {
-      if (minP !== undefined && p.priceUsd < minP) return false;
-      if (maxP !== undefined && p.priceUsd > maxP) return false;
-      if (minA !== undefined && p.areaM2 < minA) return false;
-      if (maxA !== undefined && p.areaM2 > maxA) return false;
-      if (minB !== undefined && p.beds < minB) return false;
-      return true;
-    };
-
-    const list = properties.filter((p) => byType(p) && byCity(p) && byQuery(p) && byNumbers(p));
-
-    list.sort((a, b) => (sort === "price-asc" ? a.priceUsd - b.priceUsd : b.priceUsd - a.priceUsd));
-    return list;
-  }, [city, filter, maxArea, maxPrice, minArea, minBeds, minPrice, properties, query, sort]);
-
   const waGeneral = buildWhatsAppLink(WHATSAPP_NUMBER_NO_PLUS, "Hola, quiero asesoramiento para comprar una propiedad en Uruguay.");
 
   const onHeroMove: React.MouseEventHandler<HTMLElement> = (e) => {
@@ -161,23 +69,53 @@ const Index = () => {
                 Uruguay Living · Inmobiliaria
               </Badge>
 
-              <div className="glass rounded-2xl p-4 shadow-elevated border-border-strong/30">
-                <div className="flex items-center gap-4">
-                  <img
-                    src={promotorImage}
-                    alt="Foto del promotor de Uruguay Living"
-                    className="h-16 w-16 rounded-2xl object-cover ring-1 ring-border/40"
-                    loading="eager"
-                    decoding="async"
-                  />
-                  <div className="min-w-0">
-                    <p className="font-semibold leading-tight">Promotor</p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Te acompaño en la búsqueda, visitas y negociación para encontrar la mejor opción.
-                    </p>
-                  </div>
-                </div>
-              </div>
+               <Dialog>
+                 <div className="glass rounded-2xl p-4 shadow-elevated border-border-strong/30">
+                   <div className="flex items-center gap-4">
+                     <DialogTrigger asChild>
+                       <button
+                         type="button"
+                         className="shrink-0 rounded-2xl ring-1 ring-border/40 transition-transform hover:-translate-y-0.5 reduce-motion:no-anim"
+                         aria-label="Abrir foto del promotor"
+                       >
+                         <img
+                           src={promotorImage}
+                           alt="Foto del promotor de Uruguay Living"
+                           className="h-20 w-20 rounded-2xl object-cover"
+                           loading="eager"
+                           decoding="async"
+                         />
+                       </button>
+                     </DialogTrigger>
+                     <div className="min-w-0">
+                       <p className="font-semibold leading-tight">Promotor</p>
+                       <p className="mt-1 text-sm text-muted-foreground">
+                         Te acompaño en la búsqueda, visitas y negociación para encontrar la mejor opción.
+                       </p>
+                       <div className="mt-3">
+                         <DialogTrigger asChild>
+                           <Button variant="secondary" size="sm">
+                             Abrir foto
+                           </Button>
+                         </DialogTrigger>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <DialogContent className="max-w-3xl">
+                   <div className="grid gap-4">
+                     <p className="font-semibold">Foto del promotor</p>
+                     <img
+                       src={promotorImage}
+                       alt="Foto del promotor de Uruguay Living"
+                       className="w-full rounded-2xl object-contain"
+                       loading="eager"
+                       decoding="async"
+                     />
+                   </div>
+                 </DialogContent>
+               </Dialog>
               <h1 className="text-balance font-display text-4xl font-semibold leading-tight md:text-5xl">
                 Encontrá tu casa o apartamento ideal en Uruguay
               </h1>
@@ -277,215 +215,12 @@ const Index = () => {
           </div>
         </section>
 
-        <section id="propiedades" ref={listingsRef} className="border-y bg-card/30 py-14 md:py-18">
+        <section id="contacto" className="border-y bg-card/30 py-14 md:py-18">
           <div className="container">
-            <SectionHeading
-              eyebrow="Listado"
-              title="Casas y apartamentos disponibles"
-              description="Buscá por ciudad, precio, m² y dormitorios. Ordená por precio y abrí el detalle de cada propiedad."
-            />
-
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-              <Button
-                variant={filter === "Todas" ? "highlight" : "secondary"}
-                size="sm"
-                onClick={() => setFilter("Todas")}
-              >
-                Todas
-              </Button>
-              <Button
-                variant={filter === "Casas" ? "highlight" : "secondary"}
-                size="sm"
-                onClick={() => setFilter("Casas")}
-              >
-                Casas
-              </Button>
-              <Button
-                variant={filter === "Apartamentos" ? "highlight" : "secondary"}
-                size="sm"
-                onClick={() => setFilter("Apartamentos")}
-              >
-                Apartamentos
-              </Button>
-            </div>
-
-            <div className="mt-8 glass rounded-3xl p-6 shadow-elevated">
-              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-                <div className="space-y-2">
-                  <Label htmlFor="q">Buscar</Label>
-                  <div className="relative">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
-                    <Input
-                      id="q"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Ej: Pocitos, casa, balcón..."
-                      className="pl-9"
-                      maxLength={80}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Ciudad</Label>
-                  <Select value={city} onValueChange={setCity}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Elegir" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {cities.map((c) => (
-                        <SelectItem key={c} value={c}>
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Precio (USD)</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Input
-                      inputMode="numeric"
-                      value={minPrice}
-                      onChange={(e) => setMinPrice(e.target.value.replace(/[^0-9]/g, "").slice(0, 7))}
-                      placeholder="Mín."
-                      aria-label="Precio mínimo"
-                    />
-                    <Input
-                      inputMode="numeric"
-                      value={maxPrice}
-                      onChange={(e) => setMaxPrice(e.target.value.replace(/[^0-9]/g, "").slice(0, 7))}
-                      placeholder="Máx."
-                      aria-label="Precio máximo"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Superficie (m²)</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Input
-                      inputMode="numeric"
-                      value={minArea}
-                      onChange={(e) => setMinArea(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
-                      placeholder="Mín."
-                      aria-label="Metros cuadrados mínimos"
-                    />
-                    <Input
-                      inputMode="numeric"
-                      value={maxArea}
-                      onChange={(e) => setMaxArea(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
-                      placeholder="Máx."
-                      aria-label="Metros cuadrados máximos"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Dormitorios (mín.)</Label>
-                  <Input
-                    inputMode="numeric"
-                    value={minBeds}
-                    onChange={(e) => setMinBeds(e.target.value.replace(/[^0-9]/g, "").slice(0, 2))}
-                    placeholder="Ej: 2"
-                    aria-label="Dormitorios mínimos"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Ordenar</Label>
-                  <Select value={sort} onValueChange={(v) => setSort(v as "price-asc" | "price-desc")}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="price-asc">Menor a mayor precio</SelectItem>
-                      <SelectItem value="price-desc">Mayor a menor precio</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Mostrar precio</Label>
-                  <ToggleGroup
-                    type="single"
-                    value={priceDisplay}
-                    onValueChange={(v) => setPriceDisplay((v || "both") as "uyu" | "usd" | "both")}
-                    variant="outline"
-                    size="sm"
-                    className="justify-start"
-                    aria-label="Elegir moneda a mostrar"
-                  >
-                    <ToggleGroupItem value="uyu" aria-label="Mostrar solo UYU">
-                      UYU
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="usd" aria-label="Mostrar solo USD">
-                      USD
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="both" aria-label="Mostrar UYU y USD">
-                      Ambas
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </div>
-
-                <div className="flex items-end">
-                  <Button
-                    variant="secondary"
-                    className="w-full"
-                    onClick={() => {
-                      setQuery("");
-                      setCity("Todas");
-                      setMinPrice("");
-                      setMaxPrice("");
-                      setMinArea("");
-                      setMaxArea("");
-                      setMinBeds("");
-                      setSort("price-asc");
-                      setFilter("Todas");
-                      setPriceDisplay("both");
-                    }}
-                  >
-                    <X /> Limpiar
-                  </Button>
-                </div>
-              </div>
-
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
-                <p>
-                  Resultados: <span className="font-medium text-foreground">{filtered.length}</span>
-                </p>
-                <p className="text-xs">
-                  Tasa: 1 USD ≈ <span className="font-medium text-foreground">{Math.round(rate * 100) / 100} UYU</span> ({source})
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const el = document.getElementById("contacto");
-                    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                >
-                  Consultar ahora
-                </Button>
-              </div>
-            </div>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((p) => (
-                <PropertyCard
-                  key={p.id}
-                  property={p}
-                  whatsappNumberNoPlus={WHATSAPP_NUMBER_NO_PLUS}
-                  priceDisplay={priceDisplay}
-                />
-              ))}
-            </div>
-
-            <div id="contacto" className="mt-14 glass rounded-3xl p-8 shadow-elevated md:p-10">
+            <div className="glass rounded-3xl p-8 shadow-elevated md:p-10">
               <div className="grid gap-8 md:grid-cols-2 md:items-center">
                 <div>
-                  <h3 className="text-balance font-display text-2xl font-semibold">¿Querés coordinar una visita?</h3>
+                  <h2 className="text-balance font-display text-3xl font-semibold">¿Querés coordinar una visita?</h2>
                   <p className="mt-3 text-muted-foreground">
                     Escribinos por WhatsApp y te respondemos con opciones similares, ubicación y disponibilidad.
                   </p>
