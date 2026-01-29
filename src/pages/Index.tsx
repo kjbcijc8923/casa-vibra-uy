@@ -124,16 +124,16 @@ const Index = () => {
                 Propiedades seleccionadas, asesoramiento profesional y contacto inmediato por WhatsApp.
               </p>
 
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Button asChild variant="hero" size="lg">
+              <div className="grid gap-3 sm:grid-cols-3">
+                <Button asChild variant="hero" size="lg" className="w-full">
                   <a href="#zonas">
                     Explorar zonas <ArrowDown />
                   </a>
                 </Button>
-                <Button asChild variant="highlight" size="lg">
+                <Button asChild variant="highlight" size="lg" className="w-full">
                   <Link to="/propiedades">Ser propietario seguro</Link>
                 </Button>
-                <Button asChild variant="whatsapp" size="lg">
+                <Button asChild variant="whatsapp" size="lg" className="w-full">
                   <a href={waGeneral} target="_blank" rel="noreferrer">
                     <WhatsAppLogo /> WhatsApp
                   </a>
