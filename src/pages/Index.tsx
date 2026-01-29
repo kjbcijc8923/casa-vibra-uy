@@ -166,8 +166,9 @@ const Index = () => {
                   <img
                     src={promotorImage}
                     alt="Foto del promotor de Uruguay Living"
-                    className="h-14 w-14 rounded-2xl object-cover"
+                    className="h-16 w-16 rounded-2xl object-cover ring-1 ring-border/40"
                     loading="eager"
+                    decoding="async"
                   />
                   <div className="min-w-0">
                     <p className="font-semibold leading-tight">Promotor</p>
